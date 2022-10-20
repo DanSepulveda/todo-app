@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import Fila from './components/Fila'
+import { useState } from 'react'
 
 function App() {
+  console.log('componente app')
+  const [tareas, setTareas] = useState([
+    {
+      id: 1,
+      nombre: 'Realizar informe',
+      completada: false
+    },
+    {
+      id: 2,
+      nombre: 'Imprimir documentos',
+      completada: true
+    },
+    {
+      id: 3,
+      nombre: 'Generar gráficos',
+      completada: false
+    }
+  ])
+
+  const cambiarEstado = (id) => {
+    let nuevas = tareas.map((tarea) => {
+      if (tarea.id === id) {
+        tarea.completada = !tarea.completada
+      }
+      return tarea
+    })
+    setTareas(nuevas)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {tareas.map((tarea) => (
+        <Fila
+          key={tarea.id}
+          tarea={tarea}
+          cambiar={cambiarEstado}
+        />
+      ))}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
